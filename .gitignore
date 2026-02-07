@@ -1,8 +1,8 @@
 # Environment variables
 .env
-**/ .env
-footbot_ tg_bot/.env
-footbot_site/.env
+**/.env
+"footbot_ tg_bot/.env"
+"footbot_site/.env"
 
 # Deployment scripts
 manage.ps1
