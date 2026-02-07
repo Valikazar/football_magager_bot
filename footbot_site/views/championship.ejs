@@ -39,6 +39,20 @@
 
         <h1 data-i18n="dashboard_title">Championship Dashboard</h1>
 
+        <div class="card bot-promo-card" style="margin-top: -1rem;">
+            <div class="promo-content">
+                <div class="bot-icon" style="font-size: 2.5rem;">🚀</div>
+                <div class="promo-text">
+                    <h3 data-i18n="promo_title">Play My Game is Live!</h3>
+                    <p data-i18n="promo_desc" style="margin-bottom: 0.5rem; font-size: 0.95rem;">The bot is ready to
+                        manage your matches. Add <strong>@play_mygame_bot</strong> to your group and grant minimal admin
+                        rights (Delete Messages) to start!</p>
+                    <a href="https://t.me/play_mygame_bot?startgroup=true" class="btn btn-primary"
+                        style="padding: 0.5rem 1rem; font-size: 0.85rem;" data-i18n="promo_btn">Add to Telegram</a>
+                </div>
+            </div>
+        </div>
+
         <script src="/js/locales.js"></script>
         <script>
             // Theme Logic
@@ -81,7 +95,12 @@
                 // Update Text
                 document.querySelectorAll('[data-i18n]').forEach(el => {
                     const key = el.getAttribute('data-i18n');
-                    el.innerText = getTranslation(lang, key);
+                    const text = getTranslation(lang, key);
+                    if (key === 'promo_desc') {
+                        el.innerHTML = text; // Keep HTML for strong tags
+                    } else {
+                        el.innerText = text;
+                    }
                 });
 
                 // Update Best Defender Badges which are dynamic content

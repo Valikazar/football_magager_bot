@@ -38,7 +38,10 @@ const translations = {
         "goals_scored_short": "GS",
         "goals_conceded_short": "GC",
         "goals_diff_short": "GD",
-        "pen": "pen"
+        "pen": "pen",
+        "promo_title": "Play My Game is Live!",
+        "promo_desc": "The bot is ready to manage your matches. Add <strong>@play_mygame_bot</strong> to your group and grant minimal admin rights (Delete Messages) to start!",
+        "promo_btn": "Add to Telegram"
     },
     "ru": {
         "dashboard_title": "Аналитика Чемпионата",
@@ -79,7 +82,10 @@ const translations = {
         "goals_scored_short": "ЗГ",
         "goals_conceded_short": "ПГ",
         "goals_diff_short": "+/-",
-        "pen": "пен"
+        "pen": "pen",
+        "promo_title": "Бот Play My Game запущен!",
+        "promo_desc": "Бот готов управлять вашими матчами. Добавьте <strong>@play_mygame_bot</strong> в свою группу и дайте минимальные права админа (Удаление сообщений) для начала!",
+        "promo_btn": "Добавить в Telegram"
     }
 };
 

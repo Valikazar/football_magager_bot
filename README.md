@@ -10,8 +10,15 @@
 This project is a comprehensive solution for organizing football matches, consisting of a Telegram bot and a companion website.
 
 ### 📁 Repository Structure
-- **`footbot_ tg_bot/`**: Telegram bot implementation using Python and Aiogram.
 - **`footbot_site/`**: Web dashboard for statistics and match results using Node.js and Express.
+
+### 🤖 Live Bot
+You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)**
+
+**How to start:**
+1. Add **@play_mygame_bot** to your Telegram group.
+2. Grant the bot administrative rights: **Delete Messages** (required for poll management).
+3. Send `/poll` to create your first match registration.
 
 ### 🚀 Components
 
@@ -39,8 +46,15 @@ This project is a comprehensive solution for organizing football matches, consis
 Этот проект представляет собой комплексное решение для организации футбольных матчей, состоящее из Telegram-бота и сопутствующего веб-сайта.
 
 ### 📁 Структура репозитория
-- **`footbot_ tg_bot/`**: Реализация Telegram-бота на Python и Aiogram.
 - **`footbot_site/`**: Веб-панель для просмотра статистики и результатов матчей на Node.js и Express.
+
+### 🤖 Рабочий бот
+Вы можете воспользоваться официальным ботом: **[@play_mygame_bot](https://t.me/play_mygame_bot)**
+
+**Как начать:**
+1. Добавьте **@play_mygame_bot** в вашу группу Telegram.
+2. Дайте боту права администратора: **Удаление сообщений** (необходимо для управления постами записи).
+3. Отправьте `/poll`, чтобы создать первый сбор на игру.
 
 ### 🚀 Компоненты
 
