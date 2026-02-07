@@ -1,0 +1,24 @@
+[Unit]
+Description=Footbot Telegram Bot
+After=network.target
+
+[Service]
+# User running the bot
+User=root
+# Group=root
+
+# Working directory
+WorkingDirectory=/root/footbot
+
+# Command to start the bot
+ExecStart=/usr/bin/python3 main.py
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Environment variables
+# EnvironmentFile=/root/footbot/.env
+
+[Install]
+WantedBy=multi-user.target

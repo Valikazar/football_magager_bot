@@ -1,0 +1,32 @@
+# Environment variables
+.env
+
+# Deployment/Management scripts with sensitive info
+manage.ps1
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# Database files
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# Project specific
+debug_core_team_logs.md
+fix_core_team_mode.md
+plan.md
+keyboards_temp.py
+reproduce_draft_logic.py
+fix_db.py
