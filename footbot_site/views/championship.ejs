@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Championship Stats</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+
+        <div class="top-controls">
+            <div class="lang-switch-wrapper">
+                <span class="lang-option" data-lang="en">EN</span>
+                <span class="lang-separator">/</span>
+                <span class="lang-option" data-lang="ru">RU</span>
+            </div>
+            <div class="theme-switch-wrapper">
+                <!-- Defender Toggle -->
+                <div id="defender-toggle"
+                    style="cursor: pointer; margin-right: 15px; font-size: 1.2rem; opacity: 0.5; filter: grayscale(100%); transition: all 0.3s;"
+                    title="Show Best Defenders">
+                    🛡️
+                </div>
+
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round"></div>
+                </label>
+                <span class="theme-icon">☀️</span>
+            </div>
+        </div>
+
+        <h1 data-i18n="dashboard_title">Championship Dashboard</h1>
+
+        <script src="/js/locales.js"></script>
+        <script>
+            // Theme Logic
+            const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+            const currentTheme = localStorage.getItem('theme');
+
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                if (currentTheme === 'light') {
+                    toggleSwitch.checked = true;
+                }
+            }
+
+            function switchTheme(e) {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            toggleSwitch.addEventListener('change', switchTheme);
+
+            // Language Logic
+            const langOptions = document.querySelectorAll('.lang-option');
+            let currentLang = localStorage.getItem('lang') || 'en';
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('lang', lang);
+
+                // Highlight active language
+                langOptions.forEach(opt => {
+                    if (opt.dataset.lang === lang) opt.classList.add('active');
+                    else opt.classList.remove('active');
+                });
+
+                // Update Text
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    el.innerText = getTranslation(lang, key);
+                });
+
+                // Update Best Defender Badges which are dynamic content
+                // Assuming "Best Def" is the only text part
+                document.querySelectorAll('.badge-def').forEach(el => {
+                    const count = el.getAttribute('data-count');
+                    el.innerText = `🛡️ ${count}x ${getTranslation(lang, 'best_def')}`;
+                });
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    setLanguage(opt.dataset.lang);
+                });
+            });
+
+            // Initialize Language
+            setLanguage(currentLang);
+        </script>
+
+        <div class="card">
+            <h2 data-i18n="player_stats">Player Statistics</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;" onclick="sortTable(0)" data-i18n="rank">Rank</th>
+                            <th onclick="sortTable(1)" data-i18n="player">Player</th>
+                            <th onclick="sortTable(2)" data-i18n="games">Games</th>
+                            <th onclick="sortTable(3)" data-i18n="points">Pts</th>
+                            <th onclick="sortTable(4)" data-i18n="form">Form</th>
+                            <th onclick="sortTable(5)" data-i18n="goals">Goals</th>
+                            <th onclick="sortTable(6)" data-i18n="autogoals">AG</th>
+                            <th onclick="sortTable(7)" data-i18n="goals_diff_short" title="Goal Difference">+/-</th>
+                            <th onclick="sortTable(8)" data-i18n="goals_per_match">G/M</th>
+                            <th onclick="sortTable(9)" data-i18n="assists">Asst</th>
+                            <th onclick="sortTable(10)" data-i18n="cards_yellow">🟨</th>
+                            <th onclick="sortTable(11)" data-i18n="cards_red">🟥</th>
+                            <th onclick="sortTable(12)" data-i18n="avg_rating">Avg Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statsTableBody">
+                        <% players.forEach((player, index)=> { %>
+                            <tr data-player-id="<%= player.id %>">
+                                <td class="rank-cell" style="color: var(--text-muted);">
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 600;">
+                                        <%= player.name %>
+                                    </div>
+                                    <!-- Badges will be injected here via JS -->
+                                </td>
+                                <td class="stat-val">
+                                    <%= player.games %>
+                                </td>
+                                <td class="stat-val" style="font-weight: 700;">
+                                    <%= player.tournament_points %>
+                                </td>
+                                <td>
+                                    <div class="form-wrapper">
+                                        <% player.form.forEach(item=> { %>
+                                            <div class="form-circle <%= item.result %>" <% if (item.result !=='S' ) { %>
+                                                onclick="toggleTooltip(this)"
+                                                data-score="<%= item.match_score %>"
+                                                    data-goals="<%= item.stats.goals %>"
+                                                        data-assists="<%= item.stats.assists %>"
+                                                            data-yellows="<%= item.stats.yellows %>"
+                                                                data-reds="<%= item.stats.reds %>"
+                                                                    data-rating="<%= item.stats.rating ?
+                                                                        item.stats.rating.toFixed(2) : '0.00' %>"
+                                                                        data-captain="<%= item.stats.is_captain %>"
+                                                                            <% } %>
+                                                                                >
+                                                                                <div class="tooltip-content"
+                                                                                    onclick="event.stopPropagation()">
+                                                                                    <!-- Content injected via JS -->
+                                                                                </div>
+                                            </div>
+                                            <% }); %>
+                                    </div>
+                                </td>
+                                <td class="stat-val">
+                                    <%= player.goals %>
+                                </td>
+                                <td class="stat-val" style="color: #ef4444;">
+                                    <%= player.autogoals %>
+                                </td>
+                                <td class="stat-val"
+                                    style="font-weight: 600; color: <%= player.goals_diff >= 0 ? '#22c55e' : '#ef4444' %>;">
+                                    <%= (player.goals_diff> 0 ? '+' : '') + player.goals_diff %>
+                                </td>
+                                <td class="stat-val">
+                                    <%= (player.goals / player.games).toFixed(2) %>
+                                </td>
+                                <td class="stat-val">
+                                    <%= player.assists %>
+                                </td>
+                                <td class="stat-val" style="color: #eab308;">
+                                    <%= player.yellow_cards %>
+                                </td>
+                                <td class="stat-val" style="color: #ef4444;">
+                                    <%= player.red_cards %>
+                                </td>
+                                <td>
+                                    <span class="badge">
+                                        <%= parseFloat(player.avg_rating).toFixed(2) %>
+                                    </span>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <% if (players.length===0) { %>
+                                    <tr>
+                                        <td colspan="12" style="text-align: center; color: var(--text-muted);"
+                                            data-i18n="no_player_data">No player
+                                            data available.</td>
+                                    </tr>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 data-i18n="captains_rating">Captains' Rating</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="rank">Rank</th>
+                            <th data-i18n="player">Player</th>
+                            <th data-i18n="games">Games</th>
+                            <th data-i18n="points">Pts</th>
+                            <th data-i18n="wdl">W/D/L</th>
+                            <th data-i18n="goals_scored_short" title="Goals Scored">GS</th>
+                            <th data-i18n="goals_conceded_short" title="Goals Conceded">GC</th>
+                            <th data-i18n="goals_diff_short" title="Goal Difference">GD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% captains.forEach((cap, idx)=> { %>
+                            <tr>
+                                <td style="color: var(--text-muted);">
+                                    <%= idx + 1 %>
+                                </td>
+                                <td style="font-weight: 600;">
+                                    <%= cap.name %>
+                                </td>
+                                <td class="stat-val">
+                                    <%= cap.games %>
+                                </td>
+                                <td class="stat-val" style="font-weight: 700;">
+                                    <%= cap.points %>
+                                </td>
+                                <td class="stat-val">
+                                    <span style="color: #22c55e;">
+                                        <%= cap.wins %>
+                                    </span>/
+                                    <span style="color: var(--text-muted);">
+                                        <%= cap.draws %>
+                                    </span>/
+                                    <span style="color: #ef4444;">
+                                        <%= cap.losses %>
+                                    </span>
+                                </td>
+                                <td class="stat-val" style="color: #22c55e;">
+                                    <%= cap.goals_scored %>
+                                </td>
+                                <td class="stat-val" style="color: #ef4444;">
+                                    <%= cap.goals_conceded %>
+                                </td>
+                                <td class="stat-val"
+                                    style="font-weight: 600; color: <%= cap.goals_diff >= 0 ? '#22c55e' : '#ef4444' %>;">
+                                    <%= (cap.goals_diff> 0 ? '+' : '') + cap.goals_diff %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <% if (captains.length===0) { %>
+                                    <tr>
+                                        <td colspan="7" style="text-align: center; color: var(--text-muted);"
+                                            data-i18n="no_player_data">No data available.</td>
+                                    </tr>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 data-i18n="match_history">Match History</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="date">Date</th>
+                            <th data-i18n="score">Score</th>
+                            <th data-i18n="skill_level">Skill Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% matches.forEach((match, idx)=> { %>
+                            <tr class="match-row" onclick="toggleMatchDetails(<%= idx %>)">
+                                <td style="color: var(--text-muted);">
+                                    <%= formatDate(match.match_date) %>
+                                </td>
+                                <td style="font-weight: 700; font-size: 1.1em;">
+                                    <%= match.score || '- : -' %>
+                                </td>
+                                <td>
+                                    <% if (match.skill_level) { %>
+                                        <span class="badge"
+                                            style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.3);">
+                                            <%= match.skill_level %>
+                                        </span>
+                                        <% } else { %>
+                                            <span style="color: var(--text-muted);">—</span>
+                                            <% } %>
+                                </td>
+                            </tr>
+                            <!-- Expandable details row -->
+                            <tr class="match-details" id="match-details-<%= idx %>">
+                                <td colspan="3">
+                                    <div class="events-container">
+                                        <% const events=eventsByMatch[match.id] || []; %>
+                                            <% if (events.length> 0) { %>
+                                                <table class="events-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-i18n="red_team" style="color: #ef4444;">Red Team
+                                                            </th>
+                                                            <th data-i18n="white_team" style="color: #94a3b8;">White
+                                                                Team</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% events.forEach(event=> { %>
+                                                            <tr>
+                                                                <% if (event.team==='Red' ) { %>
+                                                                    <td class="event-cell">
+                                                                        <% if (event.event_time) { %>
+                                                                            <span class="event-time">
+                                                                                <%= event.event_time %>'
+                                                                            </span>
+                                                                            <% } %>
+                                                                                <% if (event.event_type==='goal' ) { %>
+                                                                                    <span class="event-emoji">⚽</span>
+                                                                                    <span class="event-text">
+                                                                                        <%= event.player_name %>
+                                                                                            <% if (event.is_penalty) {
+                                                                                                %>
+                                                                                                <span
+                                                                                                    class="assist-text"
+                                                                                                    style="color: #ef4444;">(<span
+                                                                                                        data-i18n="pen">pen</span>)</span>
+                                                                                                <% } else if
+                                                                                                    (event.assist_player_name)
+                                                                                                    { %>
+                                                                                                    <span
+                                                                                                        class="assist-text">(🅰️
+                                                                                                        <%= event.assist_player_name
+                                                                                                            %>)
+                                                                                                    </span>
+                                                                                                    <% } %>
+                                                                                    </span>
+                                                                                    <% } else if
+                                                                                        (event.event_type==='card_yellow'
+                                                                                        ||
+                                                                                        event.event_type==='yellow_card'
+                                                                                        ) { %>
+                                                                                        <span
+                                                                                            class="event-emoji">🟨</span>
+                                                                                        <span class="event-text">
+                                                                                            <%= event.player_name %>
+                                                                                        </span>
+                                                                                        <% } else if
+                                                                                            (event.event_type==='card_red'
+                                                                                            ||
+                                                                                            event.event_type==='red_card'
+                                                                                            ) { %>
+                                                                                            <span
+                                                                                                class="event-emoji">🟥</span>
+                                                                                            <span class="event-text">
+                                                                                                <%= event.player_name %>
+                                                                                            </span>
+                                                                                            <% } %>
+                                                                    </td>
+                                                                    <td class="event-cell-empty"></td>
+                                                                    <% } else { %>
+                                                                        <td class="event-cell-empty"></td>
+                                                                        <td class="event-cell">
+                                                                            <% if (event.event_time) { %>
+                                                                                <span class="event-time">
+                                                                                    <%= event.event_time %>'
+                                                                                </span>
+                                                                                <% } %>
+                                                                                    <% if (event.event_type==='goal' ) {
+                                                                                        %>
+                                                                                        <span
+                                                                                            class="event-emoji">⚽</span>
+                                                                                        <span class="event-text">
+                                                                                            <%= event.player_name %>
+                                                                                                <% if (event.is_penalty)
+                                                                                                    { %>
+                                                                                                    <span
+                                                                                                        class="assist-text"
+                                                                                                        style="color: #ef4444;">(<span
+                                                                                                            data-i18n="pen">pen</span>)</span>
+                                                                                                    <% } else if
+                                                                                                        (event.assist_player_name)
+                                                                                                        { %>
+                                                                                                        <span
+                                                                                                            class="assist-text">(🅰️
+                                                                                                            <%= event.assist_player_name
+                                                                                                                %>
+                                                                                                                )
+                                                                                                        </span>
+                                                                                                        <% } %>
+                                                                                        </span>
+                                                                                        <% } else if
+                                                                                            (event.event_type==='card_yellow'
+                                                                                            ||
+                                                                                            event.event_type==='yellow_card'
+                                                                                            ) { %>
+                                                                                            <span
+                                                                                                class="event-emoji">🟨</span>
+                                                                                            <span class="event-text">
+                                                                                                <%= event.player_name %>
+                                                                                            </span>
+                                                                                            <% } else if
+                                                                                                (event.event_type==='card_red'
+                                                                                                ||
+                                                                                                event.event_type==='red_card'
+                                                                                                ) { %>
+                                                                                                <span
+                                                                                                    class="event-emoji">🟥</span>
+                                                                                                <span
+                                                                                                    class="event-text">
+                                                                                                    <%= event.player_name
+                                                                                                        %>
+                                                                                                </span>
+                                                                                                <% } %>
+                                                                        </td>
+                                                                        <% } %>
+                                                            </tr>
+                                                            <% }); %>
+                                                    </tbody>
+                                                </table>
+                                                <% } else { %>
+                                                    <div class="no-events" data-i18n="no_events">No events</div>
+                                                    <% } %>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <% if (matches.length===0) { %>
+                                    <tr>
+                                        <td colspan="3" style="text-align: center; color: var(--text-muted);"
+                                            data-i18n="no_recent_matches">No
+                                            recent matches.</td>
+                                    </tr>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("statsTableBody");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 0; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                    let xContent = x.textContent.toLowerCase();
+                    let yContent = y.textContent.toLowerCase();
+
+                    // Simple numeric check
+                    if (!isNaN(parseFloat(x.textContent)) && !isNaN(parseFloat(y.textContent))) {
+                        xContent = parseFloat(x.textContent);
+                        yContent = parseFloat(y.textContent);
+                    }
+
+                    if (dir == "asc") {
+                        if (xContent > yContent) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (xContent < yContent) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        // Tooltip Logic
+        let activeTooltip = null;
+
+        function toggleTooltip(element) {
+            // Close existing
+            if (activeTooltip && activeTooltip !== element) {
+                activeTooltip.classList.remove('active');
+            }
+
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+                activeTooltip = null;
+            } else {
+                // Populate content
+                const contentDiv = element.querySelector('.tooltip-content');
+                const lang = localStorage.getItem('lang') || 'en';
+
+                const score = element.dataset.score;
+                const goals = element.dataset.goals;
+                const assists = element.dataset.assists;
+                const yellows = element.dataset.yellows;
+                const reds = element.dataset.reds;
+                const rating = element.dataset.rating;
+                const isCaptain = element.dataset.captain == '1';
+
+                contentDiv.innerHTML = `
+            <div class="tooltip-title">${getTranslation(lang, 'score_match')}: ${score}</div>
+            <div class="tooltip-row"><span>${getTranslation(lang, 'goals')}:</span> <span>${goals}</span></div>
+            <div class="tooltip-row"><span>${getTranslation(lang, 'passes')}:</span> <span>${assists}</span></div>
+            <div class="tooltip-row"><span>${getTranslation(lang, 'cards')}:</span> <span>${yellows}🟨 ${reds}🟥</span></div>
+            <div class="tooltip-row"><span>${getTranslation(lang, 'rating')}:</span> <span>${rating}</span></div>
+            ${isCaptain ? `<div class="tooltip-row" style="color: var(--primary-color); font-weight: bold;"><span>${getTranslation(lang, 'captain')}:</span> <span>The Captain ✓</span></div>` : ''}
+            `;
+
+                element.classList.add('active');
+                activeTooltip = element;
+            }
+        }
+
+        // Close tooltip on click outside
+        document.addEventListener('click', (e) => {
+            if (activeTooltip && !activeTooltip.contains(e.target) && !e.target.classList.contains('form-circle')) {
+                activeTooltip.classList.remove('active');
+                activeTooltip = null;
+            }
+        });
+
+        // Match Details Toggle
+        function toggleMatchDetails(idx) {
+            const detailsRow = document.getElementById(`match-details-${idx}`);
+            detailsRow.classList.toggle('expanded');
+        }
+
+        // Best Defender Stats Toggle
+        const defenderToggle = document.getElementById('defender-toggle');
+        let defendersLoaded = false;
+        let defendersVisible = false;
+
+        if (defenderToggle) {
+            defenderToggle.addEventListener('click', async () => {
+                if (!defendersLoaded) {
+                    try {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const chat_id = urlParams.get('chat_id');
+                        const thread_id = urlParams.get('thread_id');
+
+                        const response = await fetch(`/api/championship/defenders?chat_id=${chat_id}&thread_id=${thread_id}`);
+                        const data = await response.json();
+
+                        if (data.stats) {
+                            // Apply stats to DOM
+                            document.querySelectorAll('#statsTableBody tr').forEach(row => {
+                                const playerId = row.dataset.playerId;
+                                if (playerId && data.stats[playerId]) {
+                                    const count = data.stats[playerId];
+                                    const nameCell = row.cells[1]; // 2nd cell is Name
+
+                                    // Create badge if not exists (it shouldn't exist initially now)
+                                    let badge = nameCell.querySelector('.badge-def');
+                                    if (!badge) {
+                                        badge = document.createElement('span');
+                                        badge.className = 'badge badge-def';
+                                        badge.style.fontSize = '0.65rem';
+                                        badge.style.marginTop = '4px';
+                                        badge.style.display = 'none'; // Initially hidden until we toggle
+                                        nameCell.appendChild(badge);
+                                    }
+
+                                    badge.dataset.count = count;
+                                    // Set text based on current lang
+                                    const lang = localStorage.getItem('lang') || 'en';
+                                    badge.innerText = `🛡️ ${count}x ${getTranslation(lang, 'best_def')}`;
+                                }
+                            });
+                            defendersLoaded = true;
+                        }
+                    } catch (e) {
+                        console.error("Failed to load defender stats", e);
+                        return; // Don't toggle state if failed
+                    }
+                }
+
+                // Toggle visibility
+                defendersVisible = !defendersVisible;
+                document.querySelectorAll('.badge-def').forEach(el => {
+                    el.style.display = defendersVisible ? 'inline-block' : 'none';
+                });
+
+                // Toggle button active state
+                if (defendersVisible) {
+                    defenderToggle.classList.add('active-def-toggle');
+                    defenderToggle.style.opacity = '1';
+                    defenderToggle.style.filter = 'none';
+                } else {
+                    defenderToggle.classList.remove('active-def-toggle');
+                    defenderToggle.style.opacity = '0.5';
+                    defenderToggle.style.filter = 'grayscale(100%)';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

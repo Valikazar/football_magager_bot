@@ -1,8 +1,16 @@
 # Environment variables
 .env
+**/ .env
+footbot_ tg_bot/.env
+footbot_site/.env
 
-# Deployment/Management scripts with sensitive info
+# Deployment scripts
 manage.ps1
+**/manage.ps1
+footbot_ tg_bot/manage.ps1
+
+# Configuration files
+*.service
 
 # Python
 __pycache__/
@@ -10,23 +18,19 @@ __pycache__/
 *$py.class
 venv/
 .venv/
-env/
 
-# IDEs
-.vscode/
-.idea/
+# Node.js
+node_modules/
+dist/
+build/
+.npm
+.eslintcache
 
-# Database files
-*.db
-*.sqlite3
-
-# Logs
+# Logs and databases
 *.log
+*.sqlite
+*.sql
 
-# Project specific
-debug_core_team_logs.md
-fix_core_team_mode.md
-plan.md
-keyboards_temp.py
-reproduce_draft_logic.py
-fix_db.py
+# OS files
+.DS_Store
+Thumbs.db

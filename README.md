@@ -1,114 +1,66 @@
-# ⚽ Footbot: Football Match Manager
+# ⚽ Football Manager: Bot & Site
 
 [English](#english) | [Русский](#русский)
 
 ---
 
 <a name="english"></a>
-## 🌟 Overview (English)
+## 🌟 Project Overview (English)
 
-**Footbot** is a powerful and flexible Telegram bot designed to automate football match organization. It handles everything from registration and queue management to intelligent team balancing based on player skills and historical match data.
+This project is a comprehensive solution for organizing football matches, consisting of a Telegram bot and a companion website.
 
-### 🚀 Key Features
+### 📁 Repository Structure
+- **`footbot_ tg_bot/`**: Telegram bot implementation using Python and Aiogram.
+- **`footbot_site/`**: Web dashboard for statistics and match results using Node.js and Express.
 
-#### 📋 Registration Management
-*   **Flexible Positions**: Players sign up for specific roles (Forward, Defender, Goalkeeper).
-*   **Smart Queue**: Automatically handles "extra" players by creating a waiting list.
-*   **Squad Limits**: Customizable player limits for every match.
+### 🚀 Components
 
-#### ⚖️ Intelligent Draft (Team Balancing)
-*   **Skill-Based Balancing**: An algorithm distributes players to ensure teams are as even as possible.
-*   **Position Awareness**: Ensures goalkeepers and defenders are distributed fairly between teams.
-*   **Multiple Modes**: Supports random draft or strictly stats-based balancing.
+#### 1. Telegram Bot (`footbot_ tg_bot`)
+- **Registration**: Players can sign up for matches with specific roles.
+- **Team Balancing**: Smart algorithms to create fair teams based on player skills.
+- **Stat Tracking**: Records goals, assists, and player ratings.
+- **Admin Tools**: Manage players, edit stats, and configure match settings.
 
-#### 📊 Stats & Profiles
-*   **Player Ratings**: Personal attributes (Attack, Defense, Speed, GK) that influence the draft.
-*   **Match History**: Records scores, goalscorers, and assists.
-*   **Leaderboard**: A visual ranking of players within your community.
+#### 2. Web Site (`footbot_site`)
+- **Leaderboards**: View top players and their performance.
+- **Match History**: Detailed results and event timelines for every match.
+- **Player Stats**: Individual profiles with historical data.
 
-#### 💳 Finance & Administration
-*   **Payment Tracking**: Mark players who have paid their fees and send reminders.
-*   **Multi-language**: Full support for English and Russian.
-*   **Admin Panel**: Manage chat settings, edit player stats, and create "Legionnaires" (players without Telegram).
-
----
-
-## 📸 Screenshots
-
-| Match Poll | Team Draft | Player Profile |
-| :---: | :---: | :---: |
-| ![Poll Screenshot](https://via.placeholder.com/300x500?text=Match+Poll+Screenshot) | ![Draft Screenshot](https://via.placeholder.com/300x500?text=Team+Draft+Screenshot) | ![Stats Screenshot](https://via.placeholder.com/300x500?text=Player+Stats+Screenshot) |
-| *Example registration poll* | *Balancing result* | *Attribute viewer* |
-
----
-
-## 🛠 Tech Stack
-
-*   **Language**: Python 3.10+
-*   **Bot Framework**: [Aiogram 3.x](https://docs.aiogram.dev/)
-*   **Database**: MySQL
-*   **Environment**: Dotenv
-*   **Deployment**: PowerShell (manage.ps1) + PM2 (optional)
-
----
-
-## 🚀 Quick Start
-
-1. **Clone & Setup**:
-   ```bash
-   git clone https://github.com/Valikazar/football_magager_bot.git
-   cd footbot
-   cp .env.example .env
-   ```
-
-2. **Configure**:
-   Edit `.env` with your bot token and DB credentials.
-
-3. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run**:
-   ```bash
-   python main.py
-   ```
+### 🛠 Tech Stack
+- **Bot**: Python 3.10+, Aiogram 3.x, MySQL.
+- **Site**: Node.js, Express, EJS, MySQL.
+- **Database**: Shared MySQL database.
 
 ---
 
 <a name="русский"></a>
-## 🌟 Обзор (Русский)
+## 🌟 Обзор проекта (Русский)
 
-**Footbot** — это мощный и гибкий Telegram-бот для автоматизации футбольных матчей. Он берет на себя всю рутину: от сбора состава и очередей до умного распределения команд по рейтингу и ведения статистики.
+Этот проект представляет собой комплексное решение для организации футбольных матчей, состоящее из Telegram-бота и сопутствующего веб-сайта.
 
-### � Управление записью
-*   **Гибкие позиции**: Игроки записываются на конкретные роли (Нападающий, Защитник, Вратарь).
-*   **Умная очередь**: Автоматическая обработка "лишних" игроков и создание листа ожидания.
-*   **Лимиты состава**: Настройка количества игроков для каждого матча.
+### 📁 Структура репозитория
+- **`footbot_ tg_bot/`**: Реализация Telegram-бота на Python и Aiogram.
+- **`footbot_site/`**: Веб-панель для просмотра статистики и результатов матчей на Node.js и Express.
 
-### ⚖️ Умная жеребьевка (Draft)
-*   **Балансировка по рейтингу**: Алгоритм распределяет игроков так, чтобы силы команд были максимально равны.
-*   **Учет позиций**: Бот следит, чтобы вратари и защитники не оказались все в одной команде.
-*   **Несколько режимов**: Случайная жеребьевка или строго по статистике.
+### 🚀 Компоненты
 
-### 📊 Статистика и Профили
-*   **Рейтинги игроков**: Личные характеристики (Атака, Защита, Скорость, ГК), которые влияют на жеребьевку.
-*   **История матчей**: Сохранение результатов, авторов голов и ассистов.
-*   **Таблица лидеров**: Наглядный рейтинг игроков в рамках сообщества.
+#### 1. Telegram-бот (`footbot_ tg_bot`)
+- **Запись на матчи**: Регистрация игроков с выбором позиций.
+- **Жеребьевка**: Умные алгоритмы для создания равных составов на основе рейтинга игроков.
+- **Статистика**: Учет голов, ассистов и оценок за матч.
+- **Админка**: Управление игроками, редактирование статов и настроек матча.
 
----
+#### 2. Веб-сайт (`footbot_site`)
+- **Таблицы лидеров**: Рейтинги лучших игроков.
+- **История матчей**: Подробные результаты и хронология событий каждого матча.
+- **Профили игроков**: Индивидуальная статистика и история выступлений.
 
-## 🕹 Команды / Commands
-
-| Command | Description (EN) | Описание (RU) | Access |
-| :--- | :--- | :--- | :--- |
-| `/poll` | Create match poll | Создать сбор на матч | Admin |
-| `/admin` | Admin panel | Панель управления | Admin |
-| `/set_player` | Find & edit player | Поиск и ред. игрока | Admin |
-| `/table` | Show leaderboard | Таблица лидеров | All |
-| `/help` | Help center | Справка | All |
+### 🛠 Технологии
+- **Бот**: Python 3.10+, Aiogram 3.x, MySQL.
+- **Сайт**: Node.js, Express, EJS, MySQL.
+- **База данных**: Общая база MySQL.
 
 ---
 
 ## 📄 License
-MIT. See [LICENSE](LICENSE) for details.
+MIT
