@@ -14,7 +14,7 @@ def get_connection():
         host=os.getenv("DB_HOST", "localhost"),
         user=os.getenv("DB_USER", "root"),
         password=os.getenv("DB_PASSWORD", "root"),
-        database=os.getenv("DB_NAME", "footbot")
+        database=os.getenv("DB_NAME", "play_my_game")
     )
 
 def init_db():
@@ -25,7 +25,7 @@ def init_db():
         password=os.getenv("DB_PASSWORD", "root")
     )
     cursor = temp_conn.cursor(buffered=True)
-    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {os.getenv('DB_NAME', 'footbot')}")
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {os.getenv('DB_NAME', 'play_my_game')}")
     temp_conn.close()
 
     conn = get_connection()
@@ -168,7 +168,7 @@ def init_db():
     CREATE TABLE IF NOT EXISTS match_events (
         id INT AUTO_INCREMENT PRIMARY KEY,
         match_history_id INT,
-        event_type ENUM('goal', 'autogoal', 'card_yellow', 'card_red'),
+        event_type ENUM('goal', 'autogoal', 'yellow_card', 'red_card'),
         event_time INT DEFAULT NULL,
         assist_player_id INT DEFAULT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -286,6 +286,7 @@ def init_db():
         remind_after_game TINYINT DEFAULT 1,
         core_team_mode TINYINT DEFAULT 0,
         track_assists TINYINT DEFAULT 0,
+        championship_name VARCHAR(255) DEFAULT NULL,
         PRIMARY KEY (chat_id, thread_id),
         FOREIGN KEY (language_id) REFERENCES languages(id),
         FOREIGN KEY (skill_level_id) REFERENCES skill_levels(id),

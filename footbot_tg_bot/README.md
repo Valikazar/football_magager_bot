@@ -1,4 +1,4 @@
-# ⚽ Footbot: Football Match Manager
+# ⚽ Play My Game: Football Match Manager
 
 [English](#english) | [Русский](#русский)
 
@@ -7,7 +7,7 @@
 <a name="english"></a>
 ## 🌟 Overview (English)
 
-**Footbot** is a powerful and flexible Telegram bot designed to automate football match organization. It handles everything from registration and queue management to intelligent team balancing based on player skills and historical match data.
+**Play My Game** is a powerful and flexible Telegram bot designed to automate football match organization. It handles everything from registration and queue management to intelligent team balancing based on player skills and historical match data.
 
 ### 🚀 Key Features
 
@@ -57,7 +57,7 @@
 1. **Clone & Setup**:
    ```bash
    git clone https://github.com/Valikazar/football_magager_bot.git
-   cd footbot
+   cd play-my-game
    cp .env.example .env
    ```
 
@@ -79,7 +79,7 @@
 <a name="русский"></a>
 ## 🌟 Обзор (Русский)
 
-**Footbot** — это мощный и гибкий Telegram-бот для автоматизации футбольных матчей. Он берет на себя всю рутину: от сбора состава и очередей до умного распределения команд по рейтингу и ведения статистики.
+**Play My Game** — это мощный и гибкий Telegram-бот для автоматизации футбольных матчей. Он берет на себя всю рутину: от сбора состава и очередей до умного распределения команд по рейтингу и ведения статистики.
 
 ### � Управление записью
 *   **Гибкие позиции**: Игроки записываются на конкретные роли (Нападающий, Защитник, Вратарь).

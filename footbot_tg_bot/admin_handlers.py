@@ -2128,7 +2128,15 @@ async def process_timezone_cb(callback: CallbackQuery, state: FSMContext):
     tz = callback.data.replace("set_tz_", "")
     data = await state.get_data()
     cid = data.get('chat_id')
-    tid = data.get('thread_id')
+    tid = data.get('thread_id', 0)
+    
+    # If not in state, try to get from message (for group setup)
+    if not cid:
+        cid, tid = get_ids(callback)
+    
+    if not cid:
+        return await callback.answer("Error: chat context lost. Re-open /admin", show_alert=True)
+        
     db.update_match_settings(cid, tid, "timezone", tz)
     await callback.answer(f"Timezone: {tz}")
     await edit_time_group(callback, state)

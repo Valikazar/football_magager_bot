@@ -1,6 +1,6 @@
 const translations = {
     "en": {
-        "dashboard_title": "Championship Dashboard",
+        "dashboard_title": "Play My Game Analytics",
         "back_link": "Back to Championships",
         "player_stats": "Player Statistics",
         "match_history": "Match History",
@@ -44,7 +44,7 @@ const translations = {
         "promo_btn": "Add to Telegram"
     },
     "ru": {
-        "dashboard_title": "Аналитика Чемпионата",
+        "dashboard_title": "Аналитика Play My Game",
         "back_link": "К списку чемпионатов",
         "player_stats": "Статистика Игроков",
         "match_history": "История Матчей",

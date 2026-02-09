@@ -1,4 +1,4 @@
-# ⚽ Football Manager: Bot & Site
+# ⚽ Play My Game: Bot & Site
 
 [English](#english) | [Русский](#русский)
 
@@ -22,16 +22,18 @@ You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)
 
 ### 🚀 Components
 
-#### 1. Telegram Bot (`footbot_ tg_bot`)
+#### 1. Telegram Bot
 - **Registration**: Players can sign up for matches with specific roles.
 - **Team Balancing**: Smart algorithms to create fair teams based on player skills.
 - **Stat Tracking**: Records goals, assists, and player ratings.
 - **Admin Tools**: Manage players, edit stats, and configure match settings.
+- **Web Integration**: Use `/site` or buttons in `/table` to jump directly to your championship on the web.
 
-#### 2. Web Site (`footbot_site`)
+#### 2. Web Site
 - **Leaderboards**: View top players and their performance.
 - **Match History**: Detailed results and event timelines for every match.
 - **Player Stats**: Individual profiles with historical data.
+- **Direct Links**: Unique championship pages accessible directly from the bot.
 
 ### 🛠 Tech Stack
 - **Bot**: Python 3.10+, Aiogram 3.x, MySQL.
@@ -58,16 +60,18 @@ You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)
 
 ### 🚀 Компоненты
 
-#### 1. Telegram-бот (`footbot_ tg_bot`)
+#### 1. Telegram-бот
 - **Запись на матчи**: Регистрация игроков с выбором позиций.
 - **Жеребьевка**: Умные алгоритмы для создания равных составов на основе рейтинга игроков.
 - **Статистика**: Учет голов, ассистов и оценок за матч.
 - **Админка**: Управление игроками, редактирование статов и настроек матча.
+- **Интеграция с сайтом**: Команда `/site` или кнопки в `/table` для быстрого перехода к таблице на сайте.
 
-#### 2. Веб-сайт (`footbot_site`)
+#### 2. Веб-сайт
 - **Таблицы лидеров**: Рейтинги лучших игроков.
 - **История матчей**: Подробные результаты и хронология событий каждого матча.
 - **Профили игроков**: Индивидуальная статистика и история выступлений.
+- **Прямые ссылки**: Уникальные страницы чемпионатов, доступные прямо из бота.
 
 ### 🛠 Технологии
 - **Бот**: Python 3.10+, Aiogram 3.x, MySQL.

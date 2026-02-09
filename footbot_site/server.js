@@ -13,7 +13,7 @@ const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'root',
-    database: process.env.DB_NAME || 'footbot',
+    database: process.env.DB_NAME || 'play_my_game',
     decimalNumbers: true,
 };
 
@@ -380,11 +380,10 @@ app.post('/api/championship/image', async (req, res) => {
         const targetUrl = `http://localhost:${port}/championship?chat_id=${chat_id}&thread_id=${thread_id || 0}`;
         await page.goto(targetUrl, { waitUntil: 'networkidle0' });
 
-        // Select the "Player Statistics" card (first .card)
-        const element = await page.$('.card');
-
+        // Select the "Player Statistics" card specifically
+        const element = await page.$('#stats-card');
         if (!element) {
-            throw new Error("Statistics card not found on page.");
+            throw new Error("Statistics card (#stats-card) not found on page.");
         }
 
         const screenshotBuffer = await element.screenshot({

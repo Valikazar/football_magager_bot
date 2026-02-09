@@ -225,13 +225,25 @@ async def cmd_table(message: Message):
     try:
         photo = await utils.get_championship_image(cid, tid)
         if photo:
-            await message.answer_photo(photo)
+            await message.answer_photo(
+                photo,
+                reply_markup=kb.get_site_link_kb(cid, tid, lang_id)
+            )
             await wait_msg.delete()
         else:
             await wait_msg.edit_text(tr.t("error_generic", lang_id))
     except Exception as e:
         logger.error(f"Table cmd error: {e}")
         await wait_msg.edit_text(tr.t("error_generic", lang_id))
+
+@router.message(Command("site"))
+async def cmd_site(message: Message):
+    cid, tid = get_ids(message)
+    lang_id = utils.get_chat_lang(cid, tid)
+    await message.answer(
+        tr.t("btn_open_site", lang_id),
+        reply_markup=kb.get_site_link_kb(cid, tid, lang_id)
+    )
 
 async def delete_message_after_delay(message, seconds):
     """Helper to delete message after delay"""

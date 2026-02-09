@@ -421,5 +421,7 @@
     "match_creation_cancelled": "🚫 Ввод отменен.",
     "btn_paid_all": "💰 Оплатили все",
     "btn_penalty": "🥅 Пенальти",
-    "penalty_added": "✅ Записано как пенальти"
+    "penalty_added": "✅ Записано как пенальти",
+    "btn_open_site": "🌐 Открыть чемпионат",
+    "cmd_site_desc": "Открыть сайт с результатами"
 }

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footbot Championships</title>
+    <title>Play My Game Championships</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <div class="card bot-promo-card">
@@ -16,36 +18,43 @@
                 <div class="bot-icon">🚀</div>
                 <div class="promo-text">
                     <h3>Play My Game is Live!</h3>
-                    <p>The bot is ready to manage your matches. Add <strong>@play_mygame_bot</strong> to your group and grant minimal admin rights (Delete Messages) to start!</p>
-                    <a href="https://t.me/play_mygame_bot?startgroup=true" class="btn btn-primary">Add to Telegram Group</a>
+                    <p>The bot is ready to manage your matches. Add <strong>@play_mygame_bot</strong> to your group and
+                        grant minimal admin rights (Delete Messages) to start!</p>
+                    <a href="https://t.me/play_mygame_bot?startgroup=true" class="btn btn-primary">Add to Telegram
+                        Group</a>
                 </div>
             </div>
         </div>
 
         <div class="grid">
-            <% championships.forEach(champ => { %>
-                <a href="/championship?chat_id=<%= champ.chat_id %>&thread_id=<%= champ.thread_id %>" class="card champ-card">
+            <% championships.forEach(champ=> { %>
+                <a href="/championship?chat_id=<%= champ.chat_id %>&thread_id=<%= champ.thread_id %>"
+                    class="card champ-card">
                     <div class="champ-header">
                         <div class="icon">⚽</div>
                         <div>
                             <div style="font-weight: 600;">Championship</div>
-                            <div style="font-size: 0.875rem; color: var(--text-muted);">ID: <%= champ.chat_id %> / <%= champ.thread_id %></div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">ID: <%= champ.chat_id %> / <%=
+                                        champ.thread_id %>
+                            </div>
                         </div>
                     </div>
                     <div style="color: var(--text-muted); font-size: 0.875rem;">
                         Click to view stats and matches
                     </div>
                 </a>
-            <% }); %>
+                <% }); %>
         </div>
-        
-        <% if (championships.length === 0) { %>
+
+        <% if (championships.length===0) { %>
             <div class="card" style="text-align: center; color: var(--text-muted); padding: 3rem 1.5rem;">
                 <div style="font-size: 3rem; margin-bottom: 1rem;">🏟️</div>
                 <p>No championships found in the database yet.</p>
-                <p style="font-size: 0.9rem;">Once you add the bot to a group and start your first <strong>/poll</strong>, your championship will appear here!</p>
+                <p style="font-size: 0.9rem;">Once you add the bot to a group and start your first
+                    <strong>/poll</strong>, your championship will appear here!</p>
             </div>
-        <% } %>
+            <% } %>
     </div>
 </body>
+
 </html>

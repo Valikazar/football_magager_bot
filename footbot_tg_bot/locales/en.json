@@ -415,5 +415,7 @@
     "assist_added": "✅ Assist added",
     "btn_paid_all": "💰 Paid All",
     "btn_penalty": "🥅 Penalty",
-    "penalty_added": "✅ Marked as penalty"
+    "penalty_added": "✅ Marked as penalty",
+    "btn_open_site": "🌐 Open Championship",
+    "cmd_site_desc": "Open championship site"
 }

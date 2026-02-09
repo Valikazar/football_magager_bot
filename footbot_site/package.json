@@ -1,7 +1,7 @@
 {
-    "name": "footbot-site",
+    "name": "play-my-game-site",
     "version": "1.0.0",
-    "description": "Web interface for footbot statistics",
+    "description": "Web interface for Play My Game bot statistics",
     "main": "server.js",
     "scripts": {
         "start": "node server.js",

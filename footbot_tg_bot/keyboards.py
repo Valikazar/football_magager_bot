@@ -761,3 +761,11 @@ def get_match_exists_kb(match_id, score, lang_id=1):
     builder.button(text=tr.t("btn_cancel", lang_id), callback_data=f"match_decision_cancel")
     builder.adjust(1)
     return builder.as_markup()
+
+def get_site_link_kb(chat_id, thread_id, lang_id=1):
+    builder = InlineKeyboardBuilder()
+    # If thread_id is None, make it 0
+    tid = thread_id if thread_id else 0
+    url = f"https://playmygame.duckdns.org/championship?chat_id={chat_id}&thread_id={tid}"
+    builder.button(text=tr.t("btn_open_site", lang_id), url=url)
+    return builder.as_markup()

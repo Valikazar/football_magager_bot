@@ -21,6 +21,7 @@ async def set_bot_commands(bot):
         BotCommand(command="table", description=tr.t("cmd_table_desc", 1)),
         BotCommand(command="finish_draw", description=tr.t("cmd_finish_draw_desc", 1)),
         BotCommand(command="cancel", description=tr.t("cmd_cancel_desc", 1)),
+        BotCommand(command="site", description=tr.t("cmd_site_desc", 1)),
         BotCommand(command="start", description=tr.t("cmd_start_desc", 1)),
     ]
     commands_en = [
@@ -29,6 +30,7 @@ async def set_bot_commands(bot):
         BotCommand(command="table", description=tr.t("cmd_table_desc", 2)),
         BotCommand(command="finish_draw", description=tr.t("cmd_finish_draw_desc", 2)),
         BotCommand(command="cancel", description=tr.t("cmd_cancel_desc", 2)),
+        BotCommand(command="site", description=tr.t("cmd_site_desc", 2)),
         BotCommand(command="start", description=tr.t("cmd_start_desc", 2)),
     ]
     # Set for private chats
