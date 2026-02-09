@@ -7,10 +7,10 @@
 <a name="english"></a>
 ## 🌟 Project Overview (English)
 
-⚽ **Play My Game Bot**  
-The ultimate sports match organizer for Telegram groups.
-
-Whether it's football, basketball, or volleyball, **Play My Game** takes the hassle out of organizing your weekly matches. From initial sign-ups to detailed post-match statistics, this bot handles it all.
+> ⚽ **Play My Game Bot**  
+> _The ultimate sports match organizer for Telegram groups._
+>
+> Whether it's football, basketball, or volleyball, **Play My Game** takes the hassle out of organizing your weekly matches. From initial sign-ups to detailed post-match statistics, this bot handles it all.
 
 ### 🚀 Key Features
 - **Smart Registration**: One-click sign-ups with automated queue management for latecomers.
@@ -42,10 +42,10 @@ You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)
 <a name="русский"></a>
 ## 🌟 Обзор проекта (Русский)
 
-⚽ **Play My Game Bot**  
-Ультимативный органайзер спортивных матчей для групп в Telegram.
-
-Играете с друзьями в футбол, баскетбол или волейбол? **Play My Game** возьмет на себя всю рутину: от сбора состава до ведения детальной статистики.
+> ⚽ **Play My Game Bot**  
+> _Ультимативный органайзер спортивных матчей для групп в Telegram._
+>
+> Играете с друзьями в футбол, баскетбол или волейбол? **Play My Game** возьмет на себя всю рутину: от сбора состава до ведения детальной статистики.
 
 ### 🚀 Основные возможности
 - **Умная запись**: Регистрация на игру одной кнопкой и автоматическая очередь для тех, кто не успел в основной состав.
