@@ -7,10 +7,10 @@
 <a name="english"></a>
 ## 🌟 Project Overview (English)
 
-This project is a comprehensive solution for organizing football matches, consisting of a Telegram bot and a companion website.
+⚽ **Play My Game Bot**  
+The ultimate sports match organizer for Telegram groups.
 
-### 📁 Repository Structure
-- **`footbot_site/`**: Web dashboard for statistics and match results using Node.js and Express.
+Whether it's football, basketball, or volleyball, Play My Game takes the hassle out of organizing your weekly matches. From initial sign-ups to detailed post-match statistics, this bot handles it all.
 
 ### 🤖 Live Bot
 You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)**
@@ -20,20 +20,15 @@ You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)
 2. Grant the bot administrative rights: **Delete Messages** (required for poll management).
 3. Send `/poll` to create your first match registration.
 
-### 🚀 Components
+### � Repository Structure
+- **`footbot_site/`**: Web dashboard for statistics and match results using Node.js and Express.
 
-#### 1. Telegram Bot
-- **Registration**: Players can sign up for matches with specific roles.
-- **Team Balancing**: Smart algorithms to create fair teams based on player skills.
-- **Stat Tracking**: Records goals, assists, and player ratings.
-- **Admin Tools**: Manage players, edit stats, and configure match settings.
-- **Web Integration**: Use `/site` or buttons in `/table` to jump directly to your championship on the web.
-
-#### 2. Web Site
-- **Leaderboards**: View top players and their performance.
-- **Match History**: Detailed results and event timelines for every match.
-- **Player Stats**: Individual profiles with historical data.
-- **Direct Links**: Unique championship pages accessible directly from the bot.
+### 🚀 Key Features
+- **Smart Registration**: One-click sign-ups with automated queue management for latecomers.
+- **Fair Team Balancing**: Three ways to split teams: by player rating, captain's draft, or randomized pairs.
+- **Comprehensive Stats**: Track scores, goals, assists, and cards directly in Telegram.
+- **Web Dashboard**: A companion site for leaderboards, player profiles, and match history.
+- **Performance Tracking**: Captains can rate teammates and vote for the "Man of the Match."
 
 ### 🛠 Tech Stack
 - **Bot**: Python 3.10+, Aiogram 3.x, MySQL.
@@ -45,10 +40,10 @@ You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)
 <a name="русский"></a>
 ## 🌟 Обзор проекта (Русский)
 
-Этот проект представляет собой комплексное решение для организации футбольных матчей, состоящее из Telegram-бота и сопутствующего веб-сайта.
+⚽ **Play My Game Bot**  
+Ультимативный органайзер спортивных матчей для групп в Telegram.
 
-### 📁 Структура репозитория
-- **`footbot_site/`**: Веб-панель для просмотра статистики и результатов матчей на Node.js и Express.
+Играете с друзьями в футбол, баскетбол или волейбол? Play My Game возьмет на себя всю рутину: от сбора состава до ведения детальной статистики.
 
 ### 🤖 Рабочий бот
 Вы можете воспользоваться официальным ботом: **[@play_mygame_bot](https://t.me/play_mygame_bot)**
@@ -58,20 +53,15 @@ You can use the official bot: **[@play_mygame_bot](https://t.me/play_mygame_bot)
 2. Дайте боту права администратора: **Удаление сообщений** (необходимо для управления постами записи).
 3. Отправьте `/poll`, чтобы создать первый сбор на игру.
 
-### 🚀 Компоненты
+### � Структура репозитория
+- **`footbot_site/`**: Веб-панель для просмотра статистики и результатов матчей на Node.js и Express.
 
-#### 1. Telegram-бот
-- **Запись на матчи**: Регистрация игроков с выбором позиций.
-- **Жеребьевка**: Умные алгоритмы для создания равных составов на основе рейтинга игроков.
-- **Статистика**: Учет голов, ассистов и оценок за матч.
-- **Админка**: Управление игроками, редактирование статов и настроек матча.
-- **Интеграция с сайтом**: Команда `/site` или кнопки в `/table` для быстрого перехода к таблице на сайте.
-
-#### 2. Веб-сайт
-- **Таблицы лидеров**: Рейтинги лучших игроков.
-- **История матчей**: Подробные результаты и хронология событий каждого матча.
-- **Профили игроков**: Индивидуальная статистика и история выступлений.
-- **Прямые ссылки**: Уникальные страницы чемпионатов, доступные прямо из бота.
+### 🚀 Основные возможности
+- **Умная запись**: Регистрация на игру одной кнопкой и автоматическая очередь для тех, кто не успел в основной состав.
+- **Честное деление на команды**: Три режима жеребьевки: по рейтингу, выбор капитанами или рандомное деление пар.
+- **Полная статистика**: Учет голов, ассистов и карточек прямо в чате.
+- **Веб-интерфейс**: Личный кабинет чемпионата с таблицами лидеров и историей всех матчей.
+- **Оценка игроков**: Система рейтингов и голосование за лучших игроков матча.
 
 ### 🛠 Технологии
 - **Бот**: Python 3.10+, Aiogram 3.x, MySQL.
