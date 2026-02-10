@@ -288,11 +288,7 @@ def init_db():
         track_assists TINYINT DEFAULT 0,
         championship_name VARCHAR(255) DEFAULT NULL,
         PRIMARY KEY (chat_id, thread_id),
-        FOREIGN KEY (language_id) REFERENCES languages(id),
-        FOREIGN KEY (skill_level_id) REFERENCES skill_levels(id),
-        FOREIGN KEY (age_group_id) REFERENCES age_groups(id),
-        FOREIGN KEY (gender_id) REFERENCES genders(id),
-        FOREIGN KEY (venue_type_id) REFERENCES venue_types(id)
+        FOREIGN KEY (language_id) REFERENCES languages(id)
     )
     """)
 
@@ -500,6 +496,29 @@ def init_db():
     except Exception as e:
         import logging
         logging.warning(f"Could not initialize translations: {e}")
+
+    # Fix: Remove incorrect Foreign Key constraints on settings for multi-lang fields
+    # These fields (skill_level_id, age_group_id, gender_id, venue_type_id) align with 'id_type' in reference tables, 
+    # not the primary key 'id'. Since 'id_type' is not unique across the table (only per language), we cannot use a standard FK.
+    try:
+        # Check for existing FKs on these columns
+        cursor.execute("""
+            SELECT CONSTRAINT_NAME 
+            FROM information_schema.KEY_COLUMN_USAGE 
+            WHERE TABLE_SCHEMA = DATABASE() 
+            AND TABLE_NAME = 'settings' 
+            AND COLUMN_NAME IN ('skill_level_id', 'age_group_id', 'gender_id', 'venue_type_id') 
+            AND REFERENCED_TABLE_NAME IS NOT NULL
+        """)
+        fks_to_drop = cursor.fetchall()
+        for fk in fks_to_drop:
+            constraint_name = fk[0]
+            # print(f"Dropping incorrect FK constraint: {constraint_name}")
+            cursor.execute(f"ALTER TABLE settings DROP FOREIGN KEY {constraint_name}")
+        if fks_to_drop:
+            conn.commit()
+    except Exception as e:
+        print(f"Warning dropping settings FKs: {e}")
 
     conn.commit()
     conn.close()

@@ -1757,6 +1757,7 @@ async def process_language_selection(callback: CallbackQuery, state: FSMContext)
     lang_id = int(parts[2])
     cid = int(parts[3])
     tid = int(parts[4])
+
     
     # Check if this is initial setup (no existing settings record)
     conn = db.get_connection()
@@ -1765,13 +1766,15 @@ async def process_language_selection(callback: CallbackQuery, state: FSMContext)
     existing_settings = cursor.fetchone()
     conn.close()
     
+
+    
     db.update_match_settings(cid, tid, 'language_id', lang_id)
     await callback.answer(tr.t("language_updated", lang_id))
     
     if not existing_settings or not existing_settings[0]:
         # Initial setup: continue with setup flow
         msg = await callback.message.edit_text(tr.t("initial_setup_count", lang_id))
-        await state.update_data(last_bot_msg_id=msg.message_id)
+        await state.update_data(last_bot_msg_id=msg.message_id, chat_id=cid, thread_id=tid)
         await state.set_state(InitialSetup.waiting_for_player_count)
     else:
         # Existing settings: show admin menu
@@ -1782,22 +1785,32 @@ async def process_language_selection(callback: CallbackQuery, state: FSMContext)
 async def process_lang_select_group(callback: CallbackQuery, state: FSMContext):
     cid, tid = get_ids(callback)
     lang_id = int(callback.data.split("_")[1])
+
+    
     db.update_match_settings(cid, tid, 'language_id', lang_id)
     await callback.answer(tr.t("language_changed", lang_id))
     
     # Start Initial Setup Flow
+    # Start Initial Setup Flow
     await callback.message.edit_text(tr.t("initial_setup_count", lang_id))
+    await state.update_data(chat_id=cid, thread_id=tid)
     await state.set_state(InitialSetup.waiting_for_player_count)
     # We need to save lang_id to state or re-fetch it later if needed, but db is updated so utils.get_chat_lang will work
 
-@router.message(InitialSetup.waiting_for_player_count)
+
+@router.message(InitialSetup.waiting_for_player_count, ~F.text.startswith("/"))
 async def process_initial_player_count(message: Message, state: FSMContext):
     cid, tid = get_ids(message)
-    lang_id = utils.get_chat_lang(cid, tid)
     data = await state.get_data()
+    lang_id = utils.get_chat_lang(cid, tid)
+
+    
     try:
         count = int(message.text)
-        if count < 2: raise ValueError
+        
+        if count < 2: 
+            raise ValueError
+        
         db.update_match_settings(cid, tid, 'player_count', count)
         
         # Delete previous bot message and user's input
@@ -1806,9 +1819,15 @@ async def process_initial_player_count(message: Message, state: FSMContext):
         asyncio.create_task(utils.auto_delete_message(cid, message.message_id, delay_seconds=2))
         
         msg = await message.answer(tr.t("initial_setup_timezone", lang_id), reply_markup=kb.get_timezone_kb())
+        
         await state.update_data(last_bot_msg_id=msg.message_id)
         await state.set_state(InitialSetup.waiting_for_timezone)
-    except:
+        
+    except ValueError:
+        await message.answer(tr.t("initial_setup_count_error", lang_id))
+    except Exception as e:
+        logger.error(f"Error in initial player count: {e}", exc_info=True)
+
         await message.answer(tr.t("initial_setup_count_error", lang_id))
 
 @router.callback_query(InitialSetup.waiting_for_timezone)
@@ -4084,6 +4103,10 @@ async def cmd_poll(message: Message, state: FSMContext):
     
     if not existing_settings or not existing_settings[0]:
         # Start initial setup with language selection
+        # Clear any previous state to avoid conflicts
+        await state.clear()
+        logger.info(f"Starting initial setup for chat {cid}, thread {tid}")
+
         await message.answer(
             tr.t("welcome_select_lang", 1),
             reply_markup=kb.get_language_selection_kb(cid, tid)

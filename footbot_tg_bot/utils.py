@@ -683,6 +683,7 @@ class PMContextMiddleware(BaseMiddleware):
         
         return await handler(event, data)
 
+
 async def get_championship_image(chat_id: int, thread_id: int = 0):
     """
     Fetches championship image from local API
